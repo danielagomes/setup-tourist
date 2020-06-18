@@ -3,7 +3,9 @@ const bodyParser = require("body-parser");
 const app = express();
 const PORT = 3000;
 
-app.use(bodyParser.json());
+const scrapeChannel = require("./scrapper");
+
+app.use(express.json());
 
 app.use((req, res, next) => {
   // disable security rules for local development
@@ -23,12 +25,14 @@ app.get("/creators", (req, res) => {
   // TODO get creators from DB
 });
 
-app.post("/creators", (req, res) => {
+app.post("/creators", async (req, res) => {
   console.log(req.body);
+  const { url } = req.body;
+  const creator = await scrapeChannel(url);
   // TODO valid request body
-  creators.push(req.body);
+  creators.push(creator);
   console.log(creators);
-  res.sendStatus(201);
+  res.status(201).json(creator);
 });
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));

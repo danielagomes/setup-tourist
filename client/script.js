@@ -23,15 +23,18 @@ const submitCreator = async () => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ name: "palhaço", img: channelInput.value }),
+    body: JSON.stringify({ url: channelInput.value }),
   });
-
+  // TODO add a spinner / page loader , operation takes too long and page freezes
+  console.log(response.status);
   if (response.status === 201) {
+    const creator = await response.json();
+
     // add new creator to container list
     const container = document.querySelector(".container");
     const card = newElement("div", { class: "card" });
-    const title = newElement("h4", { innerText: "palhaço" });
-    const img = newElement("img", { src: channelInput.value });
+    const title = newElement("h4", { innerText: creator.name });
+    const img = newElement("img", { src: creator.img });
     card.appendChild(title);
     card.appendChild(img);
     container.appendChild(card);
