@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+  background-color: #1d1e28;
+}
+
+.card {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #fff;
+  color: #fff;
+}
