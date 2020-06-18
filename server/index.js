@@ -5,6 +5,12 @@ const PORT = 3000;
 
 app.use(bodyParser.json());
 
+app.use((req, res, next) => {
+  // disable security rules for local development
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
 // mock data
 const creators = [
   { name: "Code Drip", img: "https://" },
