@@ -4,6 +4,7 @@ const app = express();
 const PORT = 3000;
 
 const scrapeChannel = require("./scrapper");
+const db = require("./db");
 
 app.use(express.json());
 
@@ -13,25 +14,20 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
-// mock data
-const creators = [
-  { name: "Code Drip", img: "https://" },
-  { name: "Code Drip", img: "https://" },
-  { name: "Code Drip", img: "https://" },
-];
 
-app.get("/creators", (req, res) => {
+app.get("/creators", async (req, res) => {
+  const creators = await db.getCreators();
   res.json(creators);
-  // TODO get creators from DB
 });
 
 app.post("/creators", async (req, res) => {
   console.log(req.body);
   const { url } = req.body;
-  const creator = await scrapeChannel(url);
+  const { name, img } = await scrapeChannel(url);
   // TODO valid request body
-  creators.push(creator);
-  console.log(creators);
+
+  const creator = await db.insertCreator(name, img, url);
+  console.log(creator);
   res.status(201).json(creator);
 });
 

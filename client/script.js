@@ -29,12 +29,12 @@ const submitCreator = async () => {
   console.log(response.status);
   if (response.status === 201) {
     const creator = await response.json();
-
+    console.log(creator);
     // add new creator to container list
     const container = document.querySelector(".container");
     const card = newElement("div", { class: "card" });
     const title = newElement("h4", { innerText: creator.name });
-    const img = newElement("img", { src: creator.img });
+    const img = newElement("img", { src: creator.imgURL });
     card.appendChild(title);
     card.appendChild(img);
     container.appendChild(card);
@@ -53,7 +53,7 @@ const loadCreators = async () => {
   creators.forEach((creator) => {
     const card = newElement("div", { class: "card" });
     const title = newElement("h4", { innerText: creator.name });
-    const img = newElement("img", { src: creator.img });
+    const img = newElement("img", { src: creator.imgURL });
     card.appendChild(title);
     card.appendChild(img);
     container.appendChild(card);
